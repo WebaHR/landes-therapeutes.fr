@@ -99,7 +99,6 @@ export default function RichTextEditor({
         blockquote:     false,
         code:           false,
         codeBlock:      false,
-        horizontalRule: true,
         heading: { levels: [1, 2] as Level[] },
       }),
       Placeholder.configure({
@@ -117,7 +116,7 @@ export default function RichTextEditor({
 
   useEffect(() => {
     if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value || '', false)
+      editor.commands.setContent(value || '', { emitUpdate: false })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])

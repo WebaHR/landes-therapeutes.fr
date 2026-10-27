@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Professional } from '@/types'
 import { useHover } from '@/components/landing/HoverContext'
+import 'leaflet/dist/leaflet.css'
 
 interface MapViewProps {
   professionals: Professional[]
@@ -49,7 +50,6 @@ export default function MapView({
 
     const initMap = async () => {
       const L = (await import('leaflet')).default
-      await import('leaflet/dist/leaflet.css')
       if (cancelled || !mapRef.current) return
 
       // Détruire proprement l'ancienne instance

@@ -244,6 +244,10 @@ export default async function HomePage() {
                     ...pro,
                     createdAt: pro.createdAt.toISOString(),
                     updatedAt: pro.updatedAt.toISOString(),
+                    reviews: pro.reviews.map(r => ({
+                      ...r,
+                      publishedAt: r.publishedAt.toISOString(),
+                    })),
                   }}
                 />
               ))}
