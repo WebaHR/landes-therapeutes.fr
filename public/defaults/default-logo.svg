@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="logobg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3f8a73"/>
+      <stop offset="100%" stop-color="#2e6f5c"/>
+    </linearGradient>
+  </defs>
+  <!-- Fond carré arrondi -->
+  <rect width="160" height="160" rx="32" fill="url(#logobg)"/>
+  <!-- Icône bâtiment stylisé -->
+  <rect x="52" y="60" width="56" height="56" rx="4" fill="none" stroke="#ffffff" stroke-width="5" stroke-opacity="0.9"/>
+  <rect x="68" y="80" width="10" height="10" rx="2" fill="#ffffff" fill-opacity="0.9"/>
+  <rect x="82" y="80" width="10" height="10" rx="2" fill="#ffffff" fill-opacity="0.9"/>
+  <rect x="75" y="95" width="10" height="21" rx="2" fill="#ffffff" fill-opacity="0.9"/>
+  <!-- Toit -->
+  <polygon points="80,38 108,62 52,62" fill="#ffffff" fill-opacity="0.9"/>
+</svg>

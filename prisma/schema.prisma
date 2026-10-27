@@ -1,0 +1,153 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  role          Role      @default(PROFESSIONAL)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  professional  Professional?
+  sessions      Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Professional {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  firstName       String?
+  lastName        String?
+  companyName     String
+  siren           String    @unique
+  sirenVerified   Boolean   @default(false)
+  category        String
+  description     String?   // courte phrase (250 car max)
+  richDescription String?   // texte riche HTML (blocs P/H2/H3)
+  logoUrl         String?
+  bannerUrl       String?
+  phone           String?
+  email           String?
+  website         String?
+  address         String?
+  city            String
+  postalCode      String
+  latitude        Float?
+  longitude       Float?
+  googlePlaceId   String?
+  googleRating    Float?
+  googleReviews   Int?
+  acceptsPublic   Boolean   @default(false)
+  status          ProfStatus @default(PENDING)
+  featured        Boolean   @default(false)
+  plan            Plan      @default(FREE)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  reviews              Review[]
+  openingHours         OpeningHour[]
+  consultationTypes    ConsultationType[]
+  appointments         Appointment[]
+}
+
+model ConsultationType {
+  id             String       @id @default(cuid())
+  professionalId String
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  name           String       // "Bilan naturopathique initial"
+  description    String?
+  durationMin    Int          // durée en minutes
+  price          Float        // tarif en euros
+  locationType   String       // "cabinet" | "domicile" | "distance" | "cabinet,domicile" etc.
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+
+  appointments   Appointment[]
+}
+
+model Appointment {
+  id                 String           @id @default(cuid())
+  professionalId     String
+  professional       Professional     @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  consultationTypeId String
+  consultationType   ConsultationType @relation(fields: [consultationTypeId], references: [id], onDelete: Cascade)
+
+  // Infos patient
+  patientName        String
+  patientEmail       String
+  patientPhone       String?
+  patientNote        String?
+
+  // RDV
+  date               String           // "2025-03-15"
+  time               String           // "10:00"
+  locationType       String           // lieu choisi
+
+  status             ApptStatus       @default(PENDING)
+  createdAt          DateTime         @default(now())
+}
+
+model Review {
+  id             String       @id @default(cuid())
+  professionalId String
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  authorName     String
+  authorPhoto    String?
+  rating         Int
+  text           String?
+  publishedAt    DateTime
+  source         String       @default("google")
+  createdAt      DateTime     @default(now())
+}
+
+model OpeningHour {
+  id               String       @id @default(cuid())
+  professionalId   String
+  professional     Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  dayOfWeek        Int
+  openTime         String?
+  closeTime        String?
+  openAfternoon    String?
+  closeAfternoon   String?
+  isClosed         Boolean      @default(false)
+}
+
+enum Role {
+  ADMIN
+  PROFESSIONAL
+}
+
+enum ProfStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  REJECTED
+}
+
+enum Plan {
+  FREE
+  PRO
+  PREMIUM
+}
+
+enum ApptStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}

@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --font-inter: 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Leaflet */
+.leaflet-container { height: 100%; width: 100%; border-radius: inherit; }
+.leaflet-control-attribution { display: none !important; }
+
+/* Scrollbar — eucalyptus */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #edf3ef; }
+::-webkit-scrollbar-thumb { background: #91c4b1; border-radius: 3px; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeUp 0.55s ease-out both; }
+
+.stars { color: #fbbf24; }
+
+/* Hero — eucalyptus nuit avec reflet menthe */
+.hero-bg {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -10%, rgba(63,138,115,0.24) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 60%, rgba(46,168,109,0.10) 0%, transparent 60%),
+    #101d16;
+}
+
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Focus ring — eucalyptus */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(63,138,115,0.2);
+}
+
+a, button { transition: all 0.18s ease; }
+
+@layer components {
+  /* CTA — vert menthe */
+  .btn-primary {
+    @apply bg-accent-500 hover:bg-accent-600 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 active:scale-95 shadow-sm;
+  }
+  .btn-secondary {
+    @apply bg-white hover:bg-surface-100 text-gray-800 font-semibold px-6 py-3 rounded-xl border border-gray-200 transition-all duration-200 active:scale-95;
+  }
+  /* Outline — eucalyptus */
+  .btn-outline {
+    @apply border-2 border-brand-500 text-brand-600 hover:bg-brand-50 font-semibold px-6 py-3 rounded-xl transition-all duration-200;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-gray-100;
+  }
+  .input {
+    @apply w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:border-brand-400 transition-colors;
+  }
+  .label {
+    @apply block text-sm font-medium text-gray-700 mb-1.5;
+  }
+  .section-tag {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-semibold rounded-full;
+  }
+}
+
+/* ── Tiptap rich text editor ── */
+.tiptap {
+  outline: none;
+}
+.tiptap p { margin-bottom: 0.5rem; line-height: 1.6; }
+.tiptap h1 { font-size: 1.4rem; font-weight: 800; color: #111827; margin-top: 1.2rem; margin-bottom: 0.5rem; }
+.tiptap h2 { font-size: 1.2rem; font-weight: 700; color: #111827; margin-top: 1rem; margin-bottom: 0.4rem; }
+.tiptap h3 { font-size: 1rem; font-weight: 600; color: #1f2937; margin-top: 0.75rem; margin-bottom: 0.3rem; }
+.tiptap ul { list-style-type: disc; padding-left: 1.4rem; margin-bottom: 0.5rem; }
+.tiptap ol { list-style-type: decimal; padding-left: 1.4rem; margin-bottom: 0.5rem; }
+.tiptap li { margin-bottom: 0.2rem; }
+.tiptap hr { border: none; border-top: 1px solid #e5e7eb; margin: 0.75rem 0; }
+.tiptap strong { font-weight: 700; }
+.tiptap em { font-style: italic; }
+.tiptap p.is-editor-empty:first-child::before {
+  color: #9ca3af;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Rendu de la description riche sur la fiche publique */
+.rich-content h1 { font-size: 1.35rem; font-weight: 800; color: #111827; margin-top: 1.2rem; margin-bottom: 0.5rem; }
+.rich-content h2 { font-size: 1.15rem; font-weight: 700; color: #111827; margin-top: 1rem; margin-bottom: 0.4rem; }
+.rich-content h3 { font-size: 1rem; font-weight: 600; color: #1f2937; margin-top: 0.75rem; margin-bottom: 0.3rem; }
+.rich-content p { margin-bottom: 0.5rem; line-height: 1.65; color: #4b5563; }
+.rich-content ul { list-style-type: disc; padding-left: 1.4rem; margin-bottom: 0.5rem; color: #4b5563; }
+.rich-content ol { list-style-type: decimal; padding-left: 1.4rem; margin-bottom: 0.5rem; color: #4b5563; }
+.rich-content li { margin-bottom: 0.2rem; }
+.rich-content hr { border: none; border-top: 1px solid #e5e7eb; margin: 0.75rem 0; }
+.rich-content strong { font-weight: 700; color: #111827; }
+.rich-content em { font-style: italic; }
