@@ -748,16 +748,10 @@ export default function InscriptionForm() {
 
             {/* ── FAQ ── */}
             <div className="border-t border-gray-100 pt-5">
-              <div className="flex items-center justify-between mb-1">
-                <label className="label mb-0 flex items-center gap-1.5">
-                  <HelpCircle className="w-4 h-4 text-brand-500" />
-                  Foire aux questions (FAQ)
-                </label>
-                <button type="button" onClick={addFaq}
-                  className="flex items-center gap-1.5 text-xs font-semibold text-brand-600 hover:text-brand-800 border border-brand-300 border-dashed px-3 py-1.5 rounded-lg transition-colors">
-                  <Plus className="w-3.5 h-3.5" /> Ajouter une question
-                </button>
-              </div>
+              <label className="label mb-0 flex items-center gap-1.5">
+                <HelpCircle className="w-4 h-4 text-brand-500" />
+                Foire aux questions (FAQ)
+              </label>
               <p className="text-xs text-gray-400 mb-3">Répondez aux questions les plus fréquentes de vos patients pour rassurer et convertir.</p>
 
               <div className="space-y-3">
@@ -786,6 +780,11 @@ export default function InscriptionForm() {
                   </div>
                 ))}
               </div>
+
+              <button type="button" onClick={addFaq}
+                className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-brand-600 hover:text-brand-800 border border-brand-300 border-dashed px-3 py-1.5 rounded-lg transition-colors">
+                <Plus className="w-3.5 h-3.5" /> Ajouter une question
+              </button>
             </div>
 
           </div>
