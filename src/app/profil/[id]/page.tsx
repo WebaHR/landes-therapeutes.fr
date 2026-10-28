@@ -198,33 +198,6 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
               </div>
             )}
 
-            {/* Formations & Parcours */}
-            {(pro.formations.length > 0 || pro.parcours) && (
-              <div className="card p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <GraduationCap className="w-5 h-5 text-brand-500" /> Formations &amp; Parcours
-                </h2>
-                {pro.formations.length > 0 && (
-                  <div className="space-y-3 mb-4">
-                    {pro.formations.map(f => (
-                      <div key={f.id} className="flex items-start gap-3">
-                        <div className="w-2 h-2 rounded-full bg-brand-400 mt-1.5 flex-shrink-0" />
-                        <div>
-                          <p className="font-semibold text-sm text-gray-800">{f.titre}</p>
-                          <p className="text-xs text-gray-500">
-                            {[f.etablissement, f.annee].filter(Boolean).join(' · ')}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {pro.parcours && (
-                  <div className="rich-content pt-2 border-t border-gray-100" dangerouslySetInnerHTML={{ __html: pro.parcours }} />
-                )}
-              </div>
-            )}
-
             {/* FAQ */}
             {pro.faqItems.length > 0 && (
               <div className="card p-6">
@@ -277,6 +250,33 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
 
           {/* ══ COLONNE DROITE 30% : CONTACT & CALENDRIER RDV ══ */}
           <div className="space-y-6">
+
+            {/* Formations & Parcours */}
+            {(pro.formations.length > 0 || pro.parcours) && (
+              <div className="card p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5 text-brand-500" /> Formations &amp; Parcours
+                </h2>
+                {pro.formations.length > 0 && (
+                  <div className="space-y-3 mb-4">
+                    {pro.formations.map(f => (
+                      <div key={f.id} className="flex items-start gap-3">
+                        <div className="w-2 h-2 rounded-full bg-brand-400 mt-1.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-sm text-gray-800">{f.titre}</p>
+                          <p className="text-xs text-gray-500">
+                            {[f.etablissement, f.annee].filter(Boolean).join(' · ')}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {pro.parcours && (
+                  <div className="rich-content pt-2 border-t border-gray-100" dangerouslySetInnerHTML={{ __html: pro.parcours }} />
+                )}
+              </div>
+            )}
 
             {/* Contacter */}
             <div className="card p-6">
