@@ -272,6 +272,13 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                     <Mail className="w-4 h-4" /> Envoyer un email
                   </a>
                 )}
+                {pro.website && (
+                  <a href={pro.website} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 border-2 border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold py-3 px-4 rounded-xl transition-all text-sm">
+                    <Globe className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">{pro.website.replace(/^https?:\/\//, '')}</span>
+                  </a>
+                )}
               </div>
 
               {pro.acceptsPublic && (
@@ -279,14 +286,6 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                   <MapPin className="w-4 h-4 text-brand-400 mt-0.5 flex-shrink-0" />
                   <span>{pro.address ? `${pro.address}, ` : ''}{pro.postalCode} {pro.city}</span>
                 </div>
-              )}
-
-              {pro.website && (
-                <a href={pro.website} target="_blank" rel="noopener noreferrer"
-                  className="mt-3 flex items-center gap-2 text-sm text-brand-600 hover:underline">
-                  <Globe className="w-4 h-4 flex-shrink-0" />
-                  <span className="truncate">{pro.website.replace(/^https?:\/\//, '')}</span>
-                </a>
               )}
 
               {(pro.facebookUrl || pro.instagramUrl || pro.linkedinUrl) && (
