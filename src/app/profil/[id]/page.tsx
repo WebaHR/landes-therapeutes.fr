@@ -138,20 +138,6 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                         <p className="text-gray-700 font-medium mt-1">{pro.activityTitle}</p>
                       )}
                       <p className="text-brand-600 font-semibold mt-1">{pro.category}</p>
-                      {pro.googleRating && (
-                        <div className="mt-2">
-                          <StarRating rating={pro.googleRating} count={pro.googleReviews || 0} size="md" />
-                        </div>
-                      )}
-                      {pro.description && (
-                        <p className="mt-3 text-gray-600 leading-relaxed italic">{pro.description}</p>
-                      )}
-                      {(pro as { richDescription?: string | null }).richDescription && (
-                        <div
-                          className="mt-3 rich-content"
-                          dangerouslySetInnerHTML={{ __html: (pro as { richDescription?: string | null }).richDescription! }}
-                        />
-                      )}
                       <div className="mt-4 flex flex-wrap gap-2">
                         {pro.acceptsPublic && (
                           <span className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-100">
@@ -167,6 +153,20 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                           <Video className="w-3.5 h-3.5" /> Consultation à distance
                         </span>
                       </div>
+                      {pro.googleRating && (
+                        <div className="mt-2">
+                          <StarRating rating={pro.googleRating} count={pro.googleReviews || 0} size="md" />
+                        </div>
+                      )}
+                      {pro.description && (
+                        <p className="mt-3 text-gray-600 leading-relaxed italic">{pro.description}</p>
+                      )}
+                      {(pro as { richDescription?: string | null }).richDescription && (
+                        <div
+                          className="mt-3 rich-content"
+                          dangerouslySetInnerHTML={{ __html: (pro as { richDescription?: string | null }).richDescription! }}
+                        />
+                      )}
                     </div>
                     {isOwner && (
                       <Link href="/dashboard" className="btn-secondary text-sm py-2 flex items-center gap-1.5 flex-shrink-0">
