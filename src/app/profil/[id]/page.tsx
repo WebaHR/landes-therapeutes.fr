@@ -184,27 +184,6 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
               </div>
             </div>
 
-            {/* Horaires d'ouverture */}
-            {pro.openingHours.length > 0 && (
-              <div className="card p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-brand-500" /> Horaires d&apos;ouverture
-                </h2>
-                <div className="space-y-1.5">
-                  {DAY_ORDER.map(day => {
-                    const h = pro.openingHours.find(oh => oh.dayOfWeek === day)
-                    const isToday = day === todayNum
-                    return (
-                      <div key={day} className={`flex justify-between items-center py-1.5 px-2 rounded-lg text-sm ${isToday ? 'bg-brand-50 font-semibold text-brand-700' : 'text-gray-600'}`}>
-                        <span>{isToday && '→ '}{DAY_LABELS[day]}</span>
-                        <span>{formatDayHours(h)}</span>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-
             {/* Galerie photos */}
             {pro.photos.length > 0 && (
               <div className="card p-6">
@@ -353,6 +332,27 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                 </div>
               )}
             </div>
+
+            {/* Horaires d'ouverture */}
+            {pro.openingHours.length > 0 && (
+              <div className="card p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-brand-500" /> Horaires d&apos;ouverture
+                </h2>
+                <div className="space-y-1.5">
+                  {DAY_ORDER.map(day => {
+                    const h = pro.openingHours.find(oh => oh.dayOfWeek === day)
+                    const isToday = day === todayNum
+                    return (
+                      <div key={day} className={`flex justify-between items-center py-1.5 px-2 rounded-lg text-sm ${isToday ? 'bg-brand-50 font-semibold text-brand-700' : 'text-gray-600'}`}>
+                        <span>{isToday && '→ '}{DAY_LABELS[day]}</span>
+                        <span>{formatDayHours(h)}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
 
             <BookingCalendar
               professionalId={pro.id}
