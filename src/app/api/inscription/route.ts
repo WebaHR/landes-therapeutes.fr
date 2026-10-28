@@ -2,8 +2,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { hashPassword, verifyPassword, createSession } from '@/lib/auth'
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
+import sharp from 'sharp'
 import { cookies } from 'next/headers'
 
 export async function POST(req: Request) {
@@ -69,18 +68,16 @@ export async function POST(req: Request) {
       )
     }
 
-    // Uploads
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
-    await mkdir(uploadsDir, { recursive: true })
-
+    // Logo : redimensionné puis stocké en base64 (pas d'écriture disque — incompatible avec Vercel)
     let logoUrl: string | null = null
 
     const logoFile = formData.get('logo') as File | null
     if (logoFile && logoFile.size > 0) {
-      const ext = logoFile.name.split('.').pop()
-      const filename = `logo_${siren}_${Date.now()}.${ext}`
-      await writeFile(path.join(uploadsDir, filename), Buffer.from(await logoFile.arrayBuffer()))
-      logoUrl = `/uploads/${filename}`
+      const resized = await sharp(Buffer.from(await logoFile.arrayBuffer()))
+        .resize(400, 400, { fit: 'inside', withoutEnlargement: true })
+        .toFormat('webp', { quality: 80 })
+        .toBuffer()
+      logoUrl = `data:image/webp;base64,${resized.toString('base64')}`
     }
 
     const proData = {

@@ -2,8 +2,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { requireAuth } from '@/lib/auth'
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
+import sharp from 'sharp'
 
 export async function PUT(req: Request) {
   try {
@@ -12,17 +11,16 @@ export async function PUT(req: Request) {
     if (!professional) return NextResponse.json({ error: 'Profil non trouvé' }, { status: 404 })
 
     const formData = await req.formData()
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
-    await mkdir(uploadsDir, { recursive: true })
 
     let logoUrl = professional.logoUrl
 
     const logoFile = formData.get('logo') as File | null
     if (logoFile && logoFile.size > 0) {
-      const ext = logoFile.name.split('.').pop()
-      const filename = `logo_${professional.siren}_${Date.now()}.${ext}`
-      await writeFile(path.join(uploadsDir, filename), Buffer.from(await logoFile.arrayBuffer()))
-      logoUrl = `/uploads/${filename}`
+      const resized = await sharp(Buffer.from(await logoFile.arrayBuffer()))
+        .resize(400, 400, { fit: 'inside', withoutEnlargement: true })
+        .toFormat('webp', { quality: 80 })
+        .toBuffer()
+      logoUrl = `data:image/webp;base64,${resized.toString('base64')}`
     }
 
 
