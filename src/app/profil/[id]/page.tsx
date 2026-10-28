@@ -141,12 +141,14 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                           </span>
                         )}
                       </div>
-                      {pro.activityTitle && (
-                        <p className="text-gray-700 font-medium mt-1">{pro.activityTitle}</p>
-                      )}
-                      {displayRating !== null && (
-                        <div className="mt-2">
-                          <StarRating rating={displayRating} count={displayRatingCount} size="md" />
+                      {(pro.activityTitle || displayRating !== null) && (
+                        <div className="flex items-center justify-between gap-3 mt-1">
+                          {pro.activityTitle && (
+                            <p className="text-gray-700 font-medium">{pro.activityTitle}</p>
+                          )}
+                          {displayRating !== null && (
+                            <StarRating rating={displayRating} count={displayRatingCount} size="md" />
+                          )}
                         </div>
                       )}
                       <div className="mt-4 flex flex-wrap gap-2">
