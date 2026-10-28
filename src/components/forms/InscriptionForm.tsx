@@ -11,7 +11,8 @@ import {
   BadgeCheck, AlertCircle, Upload, X, Eye, EyeOff,
   Phone, Mail, Globe, MapPin, Loader2, CheckCircle2,
   Clock, Users, UserX, Car, Sun, Sunset,
-  Plus, Trash2, GraduationCap, FileText, HelpCircle, ChevronDown
+  Plus, Trash2, GraduationCap, FileText, HelpCircle, ChevronDown,
+  Facebook, Instagram, Linkedin
 } from 'lucide-react'
 import { CATEGORIES } from '@/types'
 import { formatSiren } from '@/lib/utils'
@@ -54,6 +55,9 @@ const schema = z.object({
   phone: z.string().optional(),
   email: z.string().email('Email invalide'),
   website: z.string().url('URL invalide (ex: https://...)').optional().or(z.literal('')),
+  facebookUrl: z.string().url('URL invalide (ex: https://...)').optional().or(z.literal('')),
+  instagramUrl: z.string().url('URL invalide (ex: https://...)').optional().or(z.literal('')),
+  linkedinUrl: z.string().url('URL invalide (ex: https://...)').optional().or(z.literal('')),
   address: z.string().optional(),
   city: z.string().min(2, 'Ville requise'),
   postalCode: z.string().regex(/^\d{5}$/, 'Code postal invalide'),
@@ -330,6 +334,43 @@ export default function InscriptionForm() {
                   <input {...register('emailPro')} type="email" className="input pl-10" placeholder="contact@monactivite.fr" />
                 </div>
                 {errors.emailPro && <p className="text-red-500 text-xs mt-1.5">{errors.emailPro.message}</p>}
+              </div>
+              <div>
+                <label className="label flex items-center gap-1.5">
+                  <Globe className="w-3.5 h-3.5 text-gray-400" />
+                  Site internet (facultatif)
+                </label>
+                <div className="relative">
+                  <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input {...register('website')} className="input pl-10" placeholder="https://www.monactivite.fr" />
+                </div>
+                {errors.website && <p className="text-red-500 text-xs mt-1.5">{errors.website.message}</p>}
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="label flex items-center gap-1.5">
+                    <Facebook className="w-3.5 h-3.5 text-gray-400" />
+                    Facebook (facultatif)
+                  </label>
+                  <input {...register('facebookUrl')} className="input" placeholder="https://facebook.com/…" />
+                  {errors.facebookUrl && <p className="text-red-500 text-xs mt-1.5">{errors.facebookUrl.message}</p>}
+                </div>
+                <div>
+                  <label className="label flex items-center gap-1.5">
+                    <Instagram className="w-3.5 h-3.5 text-gray-400" />
+                    Instagram (facultatif)
+                  </label>
+                  <input {...register('instagramUrl')} className="input" placeholder="https://instagram.com/…" />
+                  {errors.instagramUrl && <p className="text-red-500 text-xs mt-1.5">{errors.instagramUrl.message}</p>}
+                </div>
+                <div>
+                  <label className="label flex items-center gap-1.5">
+                    <Linkedin className="w-3.5 h-3.5 text-gray-400" />
+                    LinkedIn (facultatif)
+                  </label>
+                  <input {...register('linkedinUrl')} className="input" placeholder="https://linkedin.com/…" />
+                  {errors.linkedinUrl && <p className="text-red-500 text-xs mt-1.5">{errors.linkedinUrl.message}</p>}
+                </div>
               </div>
             </div>
 

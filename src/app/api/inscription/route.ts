@@ -101,6 +101,10 @@ export async function POST(req: Request) {
     const description     = formData.get('description') as string | null
     const richDescription = formData.get('richDescription') as string | null
     const parcours        = formData.get('parcours') as string | null
+    const website         = formData.get('website') as string | null
+    const facebookUrl     = formData.get('facebookUrl') as string | null
+    const instagramUrl    = formData.get('instagramUrl') as string | null
+    const linkedinUrl     = formData.get('linkedinUrl') as string | null
     const address        = formData.get('address') as string | null
     const city           = formData.get('city') as string
     const postalCode     = formData.get('postalCode') as string
@@ -162,6 +166,10 @@ export async function POST(req: Request) {
       phone:           phonePro || null,
       email,
       publicEmail:     emailPro || null,
+      website:         website || null,
+      facebookUrl:     facebookUrl || null,
+      instagramUrl:    instagramUrl || null,
+      linkedinUrl:     linkedinUrl || null,
       address:         address || null,
       city,
       postalCode,

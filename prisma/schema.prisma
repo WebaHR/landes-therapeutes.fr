@@ -48,6 +48,9 @@ model Professional {
   email           String?
   publicEmail     String?   // email de contact affiché publiquement (si différent de l'email de connexion)
   website         String?
+  facebookUrl     String?
+  instagramUrl    String?
+  linkedinUrl     String?
   address         String?
   city            String
   postalCode      String

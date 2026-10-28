@@ -8,7 +8,7 @@ import Navbar from '@/components/ui/Navbar'
 import Footer from '@/components/ui/Footer'
 import StarRating from '@/components/ui/StarRating'
 import BookingCalendar from '@/components/ui/BookingCalendar'
-import { Phone, Globe, Mail, ExternalLink, ArrowLeft, ShieldCheck, Users, Car, Video, MapPin, GraduationCap, HelpCircle } from 'lucide-react'
+import { Phone, Globe, Mail, ExternalLink, ArrowLeft, ShieldCheck, Users, Car, Video, MapPin, GraduationCap, HelpCircle, Facebook, Instagram, Linkedin } from 'lucide-react'
 import ContactModal from '@/components/ui/ContactModal'
 import { formatDate } from '@/lib/utils'
 import type { Metadata } from 'next'
@@ -146,26 +146,6 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                           <Video className="w-3.5 h-3.5" /> Consultation à distance
                         </span>
                       </div>
-                      {pro.acceptsPublic && (
-                        <div className="mt-3 flex items-start gap-2 text-sm text-gray-600">
-                          <MapPin className="w-4 h-4 text-brand-400 mt-0.5 flex-shrink-0" />
-                          <span>{pro.address ? `${pro.address}, ` : ''}{pro.postalCode} {pro.city}</span>
-                        </div>
-                      )}
-                      {pro.publicEmail && (
-                        <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
-                          <Mail className="w-4 h-4 text-brand-400 flex-shrink-0" />
-                          <span>{pro.publicEmail}</span>
-                        </div>
-                      )}
-                      <div className="mt-5 flex flex-col sm:flex-row gap-3">
-                        {pro.phone && (
-                          <a href={`tel:${pro.phone}`} className="flex-1 flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold py-3 px-4 rounded-xl transition-all text-sm shadow-sm">
-                            <Phone className="w-4 h-4" /> Appeler le praticien
-                          </a>
-                        )}
-                        <ContactModal proName={pro.companyName} proEmail={pro.publicEmail || pro.email} />
-                      </div>
                     </div>
                     {isOwner && (
                       <Link href="/dashboard" className="btn-secondary text-sm py-2 flex items-center gap-1.5 flex-shrink-0">
@@ -274,8 +254,65 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
             )}
           </div>
 
-          {/* ══ COLONNE DROITE 30% : CALENDRIER RDV ══ */}
-          <div>
+          {/* ══ COLONNE DROITE 30% : CONTACT & CALENDRIER RDV ══ */}
+          <div className="space-y-6">
+
+            {/* Contacter */}
+            <div className="card p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Contacter</h2>
+              <div className="flex flex-col gap-3">
+                <ContactModal proName={pro.companyName} proEmail={pro.publicEmail || pro.email} />
+                {pro.phone && (
+                  <a href={`tel:${pro.phone}`} className="flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold py-3 px-4 rounded-xl transition-all text-sm shadow-sm">
+                    <Phone className="w-4 h-4" /> Appeler
+                  </a>
+                )}
+                {(pro.publicEmail || pro.email) && (
+                  <a href={`mailto:${pro.publicEmail || pro.email}`} className="flex items-center justify-center gap-2 border-2 border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold py-3 px-4 rounded-xl transition-all text-sm">
+                    <Mail className="w-4 h-4" /> Envoyer un email
+                  </a>
+                )}
+              </div>
+
+              {pro.acceptsPublic && (
+                <div className="mt-5 pt-4 border-t border-gray-100 flex items-start gap-2 text-sm text-gray-600">
+                  <MapPin className="w-4 h-4 text-brand-400 mt-0.5 flex-shrink-0" />
+                  <span>{pro.address ? `${pro.address}, ` : ''}{pro.postalCode} {pro.city}</span>
+                </div>
+              )}
+
+              {pro.website && (
+                <a href={pro.website} target="_blank" rel="noopener noreferrer"
+                  className="mt-3 flex items-center gap-2 text-sm text-brand-600 hover:underline">
+                  <Globe className="w-4 h-4 flex-shrink-0" />
+                  <span className="truncate">{pro.website.replace(/^https?:\/\//, '')}</span>
+                </a>
+              )}
+
+              {(pro.facebookUrl || pro.instagramUrl || pro.linkedinUrl) && (
+                <div className="mt-4 pt-4 border-t border-gray-100 flex items-center gap-3">
+                  {pro.facebookUrl && (
+                    <a href={pro.facebookUrl} target="_blank" rel="noopener noreferrer"
+                      className="w-9 h-9 rounded-full bg-gray-100 hover:bg-brand-50 text-gray-500 hover:text-brand-600 flex items-center justify-center transition-colors">
+                      <Facebook className="w-4 h-4" />
+                    </a>
+                  )}
+                  {pro.instagramUrl && (
+                    <a href={pro.instagramUrl} target="_blank" rel="noopener noreferrer"
+                      className="w-9 h-9 rounded-full bg-gray-100 hover:bg-brand-50 text-gray-500 hover:text-brand-600 flex items-center justify-center transition-colors">
+                      <Instagram className="w-4 h-4" />
+                    </a>
+                  )}
+                  {pro.linkedinUrl && (
+                    <a href={pro.linkedinUrl} target="_blank" rel="noopener noreferrer"
+                      className="w-9 h-9 rounded-full bg-gray-100 hover:bg-brand-50 text-gray-500 hover:text-brand-600 flex items-center justify-center transition-colors">
+                      <Linkedin className="w-4 h-4" />
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+
             <BookingCalendar
               professionalId={pro.id}
               consultationTypes={consultationTypes}
