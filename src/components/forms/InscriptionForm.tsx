@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import {
   BadgeCheck, AlertCircle, Upload, X, Eye, EyeOff,
   Phone, Mail, Globe, MapPin, Loader2, CheckCircle2,
-  Clock, Users, UserX, Sun, Sunset,
+  Clock, Users, UserX, Car, Sun, Sunset,
   Plus, Trash2, GraduationCap, FileText, HelpCircle, ChevronDown
 } from 'lucide-react'
 import { CATEGORIES } from '@/types'
@@ -45,6 +45,8 @@ const schema = z.object({
   siren: z.string().regex(/^\d{3}\s?\d{3}\s?\d{3}$/, 'SIREN invalide (9 chiffres)'),
   category: z.string().min(1, 'Catégorie requise'),
   activityTitle: z.string().max(100, '100 caractères max').optional(),
+  acceptsPublic: z.boolean().default(false),
+  travelsHome: z.boolean().default(false),
   description: z.string().max(250, '250 caractères max').optional(),
   richDescription: z.string().min(0).optional(),
   phonePro: z.string().optional(),
@@ -55,7 +57,6 @@ const schema = z.object({
   address: z.string().optional(),
   city: z.string().min(2, 'Ville requise'),
   postalCode: z.string().regex(/^\d{5}$/, 'Code postal invalide'),
-  acceptsPublic: z.boolean().default(false),
   password: z.string().min(8, '8 caractères minimum'),
   confirmPassword: z.string(),
   acceptCgu: z.boolean().refine(v => v, 'Acceptation requise'),
@@ -84,6 +85,7 @@ export default function InscriptionForm() {
     Array.from({ length: 7 }, (_, i) => ({ ...defaultDay(), isClosed: i === 0 || i === 6 }))
   )
   const [acceptsPublic, setAcceptsPublic] = useState(false)
+  const [travelsHome, setTravelsHome] = useState(false)
   const [acceptsRdv, setAcceptsRdv] = useState(true)
 
   // Galerie photos (max 5)
@@ -133,7 +135,7 @@ export default function InscriptionForm() {
 
   const { register, handleSubmit, watch, setValue, trigger, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { acceptsPublic: false },
+    defaultValues: { acceptsPublic: false, travelsHome: false },
   })
 
   const sirenValue = watch('siren')
@@ -187,6 +189,7 @@ export default function InscriptionForm() {
       formData.append('sirenVerified', String(sirenStatus.status === 'valid'))
       formData.append('richDescription', watch('richDescription') || '')
       formData.append('acceptsPublic', String(acceptsPublic))
+      formData.append('travelsHome', String(travelsHome))
       formData.append('acceptsRdv', String(acceptsRdv))
       formData.append('hours', JSON.stringify(hours))
       photos.forEach((p, i) => formData.append(`photo_${i}`, p.file))
@@ -389,11 +392,11 @@ export default function InscriptionForm() {
 
             {/* Accueil public */}
             <div>
-              <label className="label">Accueil du public *</label>
+              <label className="label">Accueil du public * <span className="text-gray-400 font-normal">(une ou plusieurs options)</span></label>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
-                  onClick={() => { setAcceptsPublic(true); setValue('acceptsPublic', true) }}
+                  onClick={() => { const v = !acceptsPublic; setAcceptsPublic(v); setValue('acceptsPublic', v) }}
                   className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left ${
                     acceptsPublic ? 'border-brand-500 bg-brand-50' : 'border-gray-200 hover:border-gray-300'
                   }`}
@@ -408,17 +411,17 @@ export default function InscriptionForm() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => { setAcceptsPublic(false); setValue('acceptsPublic', false) }}
+                  onClick={() => { const v = !travelsHome; setTravelsHome(v); setValue('travelsHome', v) }}
                   className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left ${
-                    !acceptsPublic ? 'border-brand-500 bg-brand-50' : 'border-gray-200 hover:border-gray-300'
+                    travelsHome ? 'border-brand-500 bg-brand-50' : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${!acceptsPublic ? 'bg-brand-100 text-brand-600' : 'bg-gray-100 text-gray-400'}`}>
-                    <UserX className="w-5 h-5" />
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${travelsHome ? 'bg-brand-100 text-brand-600' : 'bg-gray-100 text-gray-400'}`}>
+                    <Car className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className={`font-semibold text-sm ${!acceptsPublic ? 'text-brand-700' : 'text-gray-700'}`}>Je ne reçois pas</p>
-                    <p className="text-xs text-gray-400 mt-0.5">Travail à domicile, en déplacement…</p>
+                    <p className={`font-semibold text-sm ${travelsHome ? 'text-brand-700' : 'text-gray-700'}`}>Je me déplace à domicile</p>
+                    <p className="text-xs text-gray-400 mt-0.5">Consultations chez le client…</p>
                   </div>
                 </button>
               </div>
@@ -923,6 +926,7 @@ export default function InscriptionForm() {
                 ...(watch('phonePro') ? [['Tél. pro', watch('phonePro')]] : []),
                 ...(watch('emailPro') ? [['Email pro', watch('emailPro')]] : []),
                 ['Accueil public', acceptsPublic ? '✅ Oui' : '❌ Non'],
+                ['Déplacement à domicile', travelsHome ? '✅ Oui' : '❌ Non'],
               ].map(([label, value]) => (
                 <div key={label} className="flex justify-between text-sm">
                   <span className="text-gray-500">{label}</span>

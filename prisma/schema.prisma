@@ -55,6 +55,7 @@ model Professional {
   googleRating    Float?
   googleReviews   Int?
   acceptsPublic   Boolean   @default(false)
+  travelsHome     Boolean   @default(false)
   status          ProfStatus @default(PENDING)
   featured        Boolean   @default(false)
   plan            Plan      @default(FREE)

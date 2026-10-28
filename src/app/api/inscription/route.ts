@@ -31,6 +31,7 @@ export async function POST(req: Request) {
     const postalCode     = formData.get('postalCode') as string
     const sirenVerified  = formData.get('sirenVerified') === 'true'
     const acceptsPublic  = formData.get('acceptsPublic') === 'true'
+    const travelsHome    = formData.get('travelsHome') === 'true'
     const hoursRaw       = formData.get('hours') as string | null
 
     // Vérifier si l'email existe déjà
@@ -97,6 +98,7 @@ export async function POST(req: Request) {
       postalCode,
       logoUrl,
       acceptsPublic,
+      travelsHome,
       status:        'PENDING' as const,
     }
 

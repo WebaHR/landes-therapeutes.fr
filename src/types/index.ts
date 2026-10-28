@@ -26,6 +26,8 @@ export interface Professional {
   googlePlaceId?: string | null
   googleRating?: number | null
   googleReviews?: number | null
+  acceptsPublic?: boolean
+  travelsHome?: boolean
   status: ProfStatus
   featured: boolean
   plan: Plan
