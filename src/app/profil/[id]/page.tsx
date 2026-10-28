@@ -93,6 +93,13 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
     isOpenNow = !!(inMorning || inAfternoon)
   }
 
+  // Avis Google en priorité, sinon moyenne des avis de la plateforme
+  const platformRating = pro.reviews.length > 0
+    ? pro.reviews.reduce((sum, r) => sum + r.rating, 0) / pro.reviews.length
+    : null
+  const displayRating = pro.googleRating ?? platformRating
+  const displayRatingCount = pro.googleRating ? (pro.googleReviews || 0) : pro.reviews.length
+
   const serializedHours = pro.openingHours.map(h => ({
     dayOfWeek: h.dayOfWeek, isClosed: h.isClosed,
     openTime: h.openTime, closeTime: h.closeTime,
@@ -137,7 +144,11 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                       {pro.activityTitle && (
                         <p className="text-gray-700 font-medium mt-1">{pro.activityTitle}</p>
                       )}
-                      <p className="text-brand-600 font-semibold mt-1">{pro.category}</p>
+                      {displayRating !== null && (
+                        <div className="mt-2">
+                          <StarRating rating={displayRating} count={displayRatingCount} size="md" />
+                        </div>
+                      )}
                       <div className="mt-4 flex flex-wrap gap-2">
                         {pro.acceptsPublic && (
                           <span className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-100">
@@ -153,11 +164,6 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                           <Video className="w-3.5 h-3.5" /> Consultation à distance
                         </span>
                       </div>
-                      {pro.googleRating && (
-                        <div className="mt-2">
-                          <StarRating rating={pro.googleRating} count={pro.googleReviews || 0} size="md" />
-                        </div>
-                      )}
                       {pro.description && (
                         <p className="mt-3 text-gray-600 leading-relaxed italic">{pro.description}</p>
                       )}
