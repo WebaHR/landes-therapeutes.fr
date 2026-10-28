@@ -8,10 +8,31 @@ import Navbar from '@/components/ui/Navbar'
 import Footer from '@/components/ui/Footer'
 import StarRating from '@/components/ui/StarRating'
 import BookingCalendar from '@/components/ui/BookingCalendar'
-import { Phone, Globe, Mail, ExternalLink, ArrowLeft, ShieldCheck, Users, Car, Video, MapPin, GraduationCap, HelpCircle, Facebook, Instagram, Linkedin } from 'lucide-react'
+import { Phone, Globe, Mail, ExternalLink, ArrowLeft, ShieldCheck, Users, Car, Video, MapPin, GraduationCap, HelpCircle, Facebook, Instagram, Linkedin, Clock } from 'lucide-react'
 import ContactModal from '@/components/ui/ContactModal'
 import { formatDate } from '@/lib/utils'
 import type { Metadata } from 'next'
+
+// dayOfWeek suit la convention Date.getDay() : 0 = dimanche
+const DAY_LABELS: Record<number, string> = {
+  0: 'Dimanche', 1: 'Lundi', 2: 'Mardi', 3: 'Mercredi',
+  4: 'Jeudi', 5: 'Vendredi', 6: 'Samedi',
+}
+const DAY_ORDER = [1, 2, 3, 4, 5, 6, 0]
+
+function formatDayHours(h?: {
+  isClosed: boolean
+  openTime: string | null
+  closeTime: string | null
+  openAfternoon: string | null
+  closeAfternoon: string | null
+} | null): string {
+  if (!h || h.isClosed) return 'Fermé'
+  const parts: string[] = []
+  if (h.openTime && h.closeTime) parts.push(`${h.openTime} - ${h.closeTime}`)
+  if (h.openAfternoon && h.closeAfternoon) parts.push(`${h.openAfternoon} - ${h.closeAfternoon}`)
+  return parts.length ? parts.join(' / ') : 'Fermé'
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
@@ -162,6 +183,27 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                 SIREN : {pro.siren.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3')}
               </div>
             </div>
+
+            {/* Horaires d'ouverture */}
+            {pro.openingHours.length > 0 && (
+              <div className="card p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-brand-500" /> Horaires d&apos;ouverture
+                </h2>
+                <div className="space-y-1.5">
+                  {DAY_ORDER.map(day => {
+                    const h = pro.openingHours.find(oh => oh.dayOfWeek === day)
+                    const isToday = day === todayNum
+                    return (
+                      <div key={day} className={`flex justify-between items-center py-1.5 px-2 rounded-lg text-sm ${isToday ? 'bg-brand-50 font-semibold text-brand-700' : 'text-gray-600'}`}>
+                        <span>{isToday && '→ '}{DAY_LABELS[day]}</span>
+                        <span>{formatDayHours(h)}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
 
             {/* Galerie photos */}
             {pro.photos.length > 0 && (
