@@ -13,11 +13,17 @@ export interface Professional {
   category: string
   activityTitle?: string | null
   description?: string | null
+  richDescription?: string | null
+  parcours?: string | null
   logoUrl?: string | null
   bannerUrl?: string | null
   phone?: string | null
   email?: string | null
+  publicEmail?: string | null
   website?: string | null
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  linkedinUrl?: string | null
   address?: string | null
   city: string
   postalCode: string
@@ -35,6 +41,30 @@ export interface Professional {
   updatedAt: string
   reviews?: Review[]
   openingHours?: OpeningHour[]
+  formations?: Formation[]
+  faqItems?: FaqItem[]
+  photos?: ProfessionalPhoto[]
+}
+
+export interface Formation {
+  id: string
+  professionalId: string
+  titre: string
+  etablissement?: string | null
+  annee?: string | null
+}
+
+export interface FaqItem {
+  id: string
+  professionalId: string
+  question: string
+  reponse: string
+}
+
+export interface ProfessionalPhoto {
+  id: string
+  professionalId: string
+  url: string
 }
 
 export interface Review {

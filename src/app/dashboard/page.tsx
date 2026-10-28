@@ -16,6 +16,9 @@ export default async function DashboardPage() {
     include: {
       reviews:      { orderBy: { publishedAt: 'desc' }, take: 5 },
       openingHours: true,
+      formations:   { orderBy: { annee: 'desc' } },
+      faqItems:     { orderBy: { createdAt: 'asc' } },
+      photos:       { orderBy: { createdAt: 'asc' } },
     },
   })
 
@@ -45,6 +48,9 @@ export default async function DashboardPage() {
       publishedAt: r.publishedAt.toISOString(),
       createdAt:   r.createdAt.toISOString(),
     })),
+    formations: professional.formations.map(f => ({ ...f, createdAt: f.createdAt.toISOString() })),
+    faqItems:   professional.faqItems.map(f => ({ ...f, createdAt: f.createdAt.toISOString() })),
+    photos:     professional.photos.map(p => ({ ...p, createdAt: p.createdAt.toISOString() })),
   } : null
 
   return (
