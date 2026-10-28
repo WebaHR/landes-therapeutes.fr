@@ -38,6 +38,7 @@ model Professional {
   siren           String    @unique
   sirenVerified   Boolean   @default(false)
   category        String
+  activityTitle   String?   // ex: "Naturopathe certifié par la FNEP"
   description     String?   // courte phrase (250 car max)
   richDescription String?   // texte riche HTML (blocs P/H2/H3)
   logoUrl         String?

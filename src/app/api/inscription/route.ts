@@ -21,6 +21,7 @@ export async function POST(req: Request) {
     const companyName    = companyNameRaw?.trim() || `${firstName} ${lastName}`
     const siren          = (formData.get('siren') as string).replace(/\s/g, '')
     const category       = formData.get('category') as string
+    const activityTitle   = formData.get('activityTitle') as string | null
     const description     = formData.get('description') as string | null
     const richDescription = formData.get('richDescription') as string | null
     const phone          = formData.get('phone') as string | null
@@ -86,6 +87,7 @@ export async function POST(req: Request) {
       siren,
       sirenVerified,
       category,
+      activityTitle: activityTitle || null,
       description:   description || null,
       phone:         phone || null,
       email,

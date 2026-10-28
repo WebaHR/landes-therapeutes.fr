@@ -110,6 +110,9 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                           </span>
                         )}
                       </div>
+                      {pro.activityTitle && (
+                        <p className="text-gray-700 font-medium mt-1">{pro.activityTitle}</p>
+                      )}
                       <p className="text-brand-600 font-semibold mt-1">{pro.category}</p>
                       {pro.googleRating && (
                         <div className="mt-2">

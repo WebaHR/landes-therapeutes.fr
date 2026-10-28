@@ -44,6 +44,7 @@ const schema = z.object({
   companyName: z.string().optional(),
   siren: z.string().regex(/^\d{3}\s?\d{3}\s?\d{3}$/, 'SIREN invalide (9 chiffres)'),
   category: z.string().min(1, 'Catégorie requise'),
+  activityTitle: z.string().max(100, '100 caractères max').optional(),
   description: z.string().max(250, '250 caractères max').optional(),
   richDescription: z.string().min(0).optional(),
   phonePro: z.string().optional(),
@@ -326,6 +327,20 @@ export default function InscriptionForm() {
                   <input {...register('emailPro')} type="email" className="input pl-10" placeholder="contact@monactivite.fr" />
                 </div>
                 {errors.emailPro && <p className="text-red-500 text-xs mt-1.5">{errors.emailPro.message}</p>}
+              </div>
+            </div>
+
+            {/* Titre de l'activité */}
+            <div className="border-t border-gray-100 pt-4 space-y-4">
+              <div>
+                <label className="label">Titre de votre activité</label>
+                <input
+                  {...register('activityTitle')}
+                  className="input"
+                  placeholder="Ex : Naturopathe certifié par la FNEP, Sophrologue diplômée RNCP…"
+                  maxLength={100}
+                />
+                {errors.activityTitle && <p className="text-red-500 text-xs mt-1.5">{errors.activityTitle.message}</p>}
               </div>
             </div>
 

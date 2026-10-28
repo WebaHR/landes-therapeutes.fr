@@ -11,6 +11,7 @@ export interface Professional {
   siren: string
   sirenVerified: boolean
   category: string
+  activityTitle?: string | null
   description?: string | null
   logoUrl?: string | null
   bannerUrl?: string | null
