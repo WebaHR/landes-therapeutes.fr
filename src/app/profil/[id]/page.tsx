@@ -8,7 +8,7 @@ import Navbar from '@/components/ui/Navbar'
 import Footer from '@/components/ui/Footer'
 import StarRating from '@/components/ui/StarRating'
 import BookingCalendar from '@/components/ui/BookingCalendar'
-import { Phone, Globe, Mail, ExternalLink, ArrowLeft, ShieldCheck, Users, Car, Video, MapPin } from 'lucide-react'
+import { Phone, Globe, Mail, ExternalLink, ArrowLeft, ShieldCheck, Users, Car, Video, MapPin, GraduationCap, HelpCircle } from 'lucide-react'
 import ContactModal from '@/components/ui/ContactModal'
 import { formatDate } from '@/lib/utils'
 import type { Metadata } from 'next'
@@ -32,6 +32,9 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
       include: {
         reviews:      { orderBy: { publishedAt: 'desc' } },
         openingHours: { orderBy: { dayOfWeek: 'asc' } },
+        formations:   { orderBy: { annee: 'desc' } },
+        faqItems:     { orderBy: { createdAt: 'asc' } },
+        photos:       { orderBy: { createdAt: 'asc' } },
       },
     }),
   ])
@@ -149,13 +152,19 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                           <span>{pro.address ? `${pro.address}, ` : ''}{pro.postalCode} {pro.city}</span>
                         </div>
                       )}
+                      {pro.publicEmail && (
+                        <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
+                          <Mail className="w-4 h-4 text-brand-400 flex-shrink-0" />
+                          <span>{pro.publicEmail}</span>
+                        </div>
+                      )}
                       <div className="mt-5 flex flex-col sm:flex-row gap-3">
                         {pro.phone && (
                           <a href={`tel:${pro.phone}`} className="flex-1 flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold py-3 px-4 rounded-xl transition-all text-sm shadow-sm">
                             <Phone className="w-4 h-4" /> Appeler le praticien
                           </a>
                         )}
-                        <ContactModal proName={pro.companyName} proEmail={pro.email} />
+                        <ContactModal proName={pro.companyName} proEmail={pro.publicEmail || pro.email} />
                       </div>
                     </div>
                     {isOwner && (
@@ -166,7 +175,71 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                   </div>
                 </div>
               </div>
+
+              {/* Numéro SIREN */}
+              <div className="mt-5 pt-4 border-t border-gray-100 flex items-center gap-2 text-xs text-gray-400">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                SIREN : {pro.siren.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3')}
+              </div>
             </div>
+
+            {/* Galerie photos */}
+            {pro.photos.length > 0 && (
+              <div className="card p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">Galerie photos</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {pro.photos.map(photo => (
+                    <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
+                      <Image src={photo.url} alt={pro.companyName} fill className="object-cover" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Formations & Parcours */}
+            {(pro.formations.length > 0 || pro.parcours) && (
+              <div className="card p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5 text-brand-500" /> Formations &amp; Parcours
+                </h2>
+                {pro.formations.length > 0 && (
+                  <div className="space-y-3 mb-4">
+                    {pro.formations.map(f => (
+                      <div key={f.id} className="flex items-start gap-3">
+                        <div className="w-2 h-2 rounded-full bg-brand-400 mt-1.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-sm text-gray-800">{f.titre}</p>
+                          <p className="text-xs text-gray-500">
+                            {[f.etablissement, f.annee].filter(Boolean).join(' · ')}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {pro.parcours && (
+                  <div className="rich-content pt-2 border-t border-gray-100" dangerouslySetInnerHTML={{ __html: pro.parcours }} />
+                )}
+              </div>
+            )}
+
+            {/* FAQ */}
+            {pro.faqItems.length > 0 && (
+              <div className="card p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <HelpCircle className="w-5 h-5 text-brand-500" /> Questions fréquentes
+                </h2>
+                <div className="space-y-4">
+                  {pro.faqItems.map(faq => (
+                    <div key={faq.id}>
+                      <p className="font-semibold text-sm text-gray-800">{faq.question}</p>
+                      <p className="text-sm text-gray-600 mt-1 leading-relaxed">{faq.reponse}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Avis */}
             {pro.reviews.length > 0 ? (

@@ -41,10 +41,12 @@ model Professional {
   activityTitle   String?   // ex: "Naturopathe certifié par la FNEP"
   description     String?   // courte phrase (250 car max)
   richDescription String?   // texte riche HTML (blocs P/H2/H3)
+  parcours        String?   // texte riche HTML — parcours & informations complémentaires
   logoUrl         String?
   bannerUrl       String?
   phone           String?
   email           String?
+  publicEmail     String?   // email de contact affiché publiquement (si différent de l'email de connexion)
   website         String?
   address         String?
   city            String
@@ -66,6 +68,36 @@ model Professional {
   openingHours         OpeningHour[]
   consultationTypes    ConsultationType[]
   appointments         Appointment[]
+  formations           Formation[]
+  faqItems             FaqItem[]
+  photos               ProfessionalPhoto[]
+}
+
+model Formation {
+  id             String       @id @default(cuid())
+  professionalId String
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  titre          String
+  etablissement  String?
+  annee          String?
+  createdAt      DateTime     @default(now())
+}
+
+model FaqItem {
+  id             String       @id @default(cuid())
+  professionalId String
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  question       String
+  reponse        String
+  createdAt      DateTime     @default(now())
+}
+
+model ProfessionalPhoto {
+  id             String       @id @default(cuid())
+  professionalId String
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  url            String
+  createdAt      DateTime     @default(now())
 }
 
 model ConsultationType {
