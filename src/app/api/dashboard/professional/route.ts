@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { requireAuth } from '@/lib/auth'
 import sharp from 'sharp'
+import { fetchGooglePlaceRating } from '@/lib/googlePlaces'
 
 type FormationInput = { titre: string; etablissement: string; annee: string }
 type FaqInput = { question: string; reponse: string }
@@ -29,6 +30,23 @@ export async function PUT(req: Request) {
       logoUrl = await toWebpDataUri(logoFile, 400)
     }
 
+    const googlePlaceId = formData.get('googlePlaceId') as string || null
+
+    // Récupère la note et le nombre d'avis Google pour ce Place ID.
+    // En cas d'échec (clé API absente/invalide, Place ID erroné…), on garde les valeurs déjà connues.
+    let googleRating = professional.googleRating
+    let googleReviews = professional.googleReviews
+    if (googlePlaceId) {
+      const result = await fetchGooglePlaceRating(googlePlaceId)
+      if (result) {
+        googleRating = result.rating
+        googleReviews = result.reviewCount
+      }
+    } else {
+      googleRating = null
+      googleReviews = null
+    }
+
     await prisma.professional.update({
       where: { userId: user.id },
       data: {
@@ -42,7 +60,9 @@ export async function PUT(req: Request) {
         address:         formData.get('address') as string || null,
         city:            formData.get('city') as string || professional.city,
         postalCode:      formData.get('postalCode') as string || professional.postalCode,
-        googlePlaceId:   formData.get('googlePlaceId') as string || null,
+        googlePlaceId,
+        googleRating,
+        googleReviews,
         logoUrl,
       },
     })
