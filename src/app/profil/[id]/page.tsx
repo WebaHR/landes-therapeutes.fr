@@ -112,6 +112,75 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
 
       {/* Bloc pleine largeur */}
       <div className="w-full pt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="card p-6">
+            <div className="flex items-start gap-5">
+              <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden flex-shrink-0 shadow-md">
+                <Image src={pro.logoUrl || '/defaults/default-logo.svg'} alt={pro.companyName} fill className="object-cover" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{pro.companyName}</h1>
+                      {pro.sirenVerified && (
+                        <span className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 text-xs font-bold px-3 py-1 rounded-full border border-brand-200">
+                          <ShieldCheck className="w-3.5 h-3.5" /> Vérifié landes-therapeutes.fr
+                        </span>
+                      )}
+                      {pro.openingHours.length > 0 && (
+                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${isOpenNow ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                          {isOpenNow ? '● Ouvert' : '● Fermé'}
+                        </span>
+                      )}
+                    </div>
+                    {(pro.activityTitle || displayRating !== null) && (
+                      <div className="flex items-center justify-between gap-3 mt-1">
+                        {pro.activityTitle && (
+                          <p className="text-gray-700 font-medium">{pro.activityTitle}</p>
+                        )}
+                        {displayRating !== null && (
+                          <StarRating rating={displayRating} count={displayRatingCount} size="md" />
+                        )}
+                      </div>
+                    )}
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {pro.acceptsPublic && (
+                        <span className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-100">
+                          <Users className="w-3.5 h-3.5" /> Reçoit en cabinet
+                        </span>
+                      )}
+                      {pro.travelsHome && (
+                        <span className="inline-flex items-center gap-1.5 bg-accent-50 text-accent-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-accent-100">
+                          <Car className="w-3.5 h-3.5" /> Se déplace à domicile
+                        </span>
+                      )}
+                      <span className="inline-flex items-center gap-1.5 bg-purple-50 text-purple-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-purple-100">
+                        <Video className="w-3.5 h-3.5" /> Consultation à distance
+                      </span>
+                    </div>
+                  </div>
+                  {isOwner && (
+                    <Link href="/dashboard" className="btn-secondary text-sm py-2 flex items-center gap-1.5 flex-shrink-0">
+                      <ExternalLink className="w-4 h-4" /> Modifier ma fiche
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Galerie photos */}
+            {pro.photos.length > 0 && (
+              <div className="mt-5 grid grid-cols-3 sm:grid-cols-5 gap-2">
+                {pro.photos.map(photo => (
+                  <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
+                    <Image src={photo.url} alt={pro.companyName} fill className="object-cover" />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
@@ -123,74 +192,6 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
 
           {/* ══ COLONNE GAUCHE 70% ══ */}
           <div className="space-y-6 min-w-0">
-
-            <div className="card p-6">
-              <div className="flex items-start gap-5">
-                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden flex-shrink-0 shadow-md">
-                  <Image src={pro.logoUrl || '/defaults/default-logo.svg'} alt={pro.companyName} fill className="object-cover" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{pro.companyName}</h1>
-                        {pro.sirenVerified && (
-                          <span className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 text-xs font-bold px-3 py-1 rounded-full border border-brand-200">
-                            <ShieldCheck className="w-3.5 h-3.5" /> Vérifié landes-therapeutes.fr
-                          </span>
-                        )}
-                        {pro.openingHours.length > 0 && (
-                          <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${isOpenNow ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
-                            {isOpenNow ? '● Ouvert' : '● Fermé'}
-                          </span>
-                        )}
-                      </div>
-                      {(pro.activityTitle || displayRating !== null) && (
-                        <div className="flex items-center justify-between gap-3 mt-1">
-                          {pro.activityTitle && (
-                            <p className="text-gray-700 font-medium">{pro.activityTitle}</p>
-                          )}
-                          {displayRating !== null && (
-                            <StarRating rating={displayRating} count={displayRatingCount} size="md" />
-                          )}
-                        </div>
-                      )}
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {pro.acceptsPublic && (
-                          <span className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-100">
-                            <Users className="w-3.5 h-3.5" /> Reçoit en cabinet
-                          </span>
-                        )}
-                        {pro.travelsHome && (
-                          <span className="inline-flex items-center gap-1.5 bg-accent-50 text-accent-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-accent-100">
-                            <Car className="w-3.5 h-3.5" /> Se déplace à domicile
-                          </span>
-                        )}
-                        <span className="inline-flex items-center gap-1.5 bg-purple-50 text-purple-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-purple-100">
-                          <Video className="w-3.5 h-3.5" /> Consultation à distance
-                        </span>
-                      </div>
-                    </div>
-                    {isOwner && (
-                      <Link href="/dashboard" className="btn-secondary text-sm py-2 flex items-center gap-1.5 flex-shrink-0">
-                        <ExternalLink className="w-4 h-4" /> Modifier ma fiche
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Galerie photos */}
-              {pro.photos.length > 0 && (
-                <div className="mt-5 grid grid-cols-3 sm:grid-cols-5 gap-2">
-                  {pro.photos.map(photo => (
-                    <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
-                      <Image src={photo.url} alt={pro.companyName} fill className="object-cover" />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
 
             {/* Description & informations légales */}
             <div className="card p-6">
