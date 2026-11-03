@@ -166,24 +166,6 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                           <Video className="w-3.5 h-3.5" /> Consultation à distance
                         </span>
                       </div>
-                      {pro.photos.length > 0 && (
-                        <div className="mt-4 grid grid-cols-3 sm:grid-cols-5 gap-2">
-                          {pro.photos.map(photo => (
-                            <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
-                              <Image src={photo.url} alt={pro.companyName} fill className="object-cover" />
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      {pro.description && (
-                        <p className="mt-3 text-gray-600 leading-relaxed italic">{pro.description}</p>
-                      )}
-                      {(pro as { richDescription?: string | null }).richDescription && (
-                        <div
-                          className="mt-3 rich-content"
-                          dangerouslySetInnerHTML={{ __html: (pro as { richDescription?: string | null }).richDescription! }}
-                        />
-                      )}
                     </div>
                     {isOwner && (
                       <Link href="/dashboard" className="btn-secondary text-sm py-2 flex items-center gap-1.5 flex-shrink-0">
@@ -193,6 +175,28 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Galerie, description & informations légales */}
+            <div className="card p-6">
+              {pro.photos.length > 0 && (
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                  {pro.photos.map(photo => (
+                    <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
+                      <Image src={photo.url} alt={pro.companyName} fill className="object-cover" />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {pro.description && (
+                <p className="mt-3 text-gray-600 leading-relaxed italic">{pro.description}</p>
+              )}
+              {(pro as { richDescription?: string | null }).richDescription && (
+                <div
+                  className="mt-3 rich-content"
+                  dangerouslySetInnerHTML={{ __html: (pro as { richDescription?: string | null }).richDescription! }}
+                />
+              )}
 
               {/* Numéro SIREN */}
               <div className="mt-5 pt-4 border-t border-gray-100 flex items-center gap-2 text-xs text-gray-400">
