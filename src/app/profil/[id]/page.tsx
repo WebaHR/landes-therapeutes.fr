@@ -177,9 +177,9 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
               </div>
             </div>
 
-            {/* Galerie, description & informations légales */}
-            <div className="card p-6">
-              {pro.photos.length > 0 && (
+            {/* Galerie photos */}
+            {pro.photos.length > 0 && (
+              <div className="card p-6">
                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                   {pro.photos.map(photo => (
                     <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
@@ -187,7 +187,11 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                     </div>
                   ))}
                 </div>
-              )}
+              </div>
+            )}
+
+            {/* Description & informations légales */}
+            <div className="card p-6">
               {pro.description && (
                 <p className="mt-3 text-gray-600 leading-relaxed italic">{pro.description}</p>
               )}
