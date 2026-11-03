@@ -110,7 +110,11 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
     <div className="min-h-screen bg-surface-50">
       <Navbar user={user} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+      {/* Bloc pleine largeur */}
+      <div className="w-full pt-20">
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <Link href="/annuaire" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mt-6 mb-6">
           <ArrowLeft className="w-4 h-4" /> Retour à l&apos;annuaire
         </Link>
