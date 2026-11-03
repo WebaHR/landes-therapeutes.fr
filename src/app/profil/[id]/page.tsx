@@ -166,6 +166,15 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                           <Video className="w-3.5 h-3.5" /> Consultation à distance
                         </span>
                       </div>
+                      {pro.photos.length > 0 && (
+                        <div className="mt-4 grid grid-cols-3 sm:grid-cols-5 gap-2">
+                          {pro.photos.map(photo => (
+                            <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
+                              <Image src={photo.url} alt={pro.companyName} fill className="object-cover" />
+                            </div>
+                          ))}
+                        </div>
+                      )}
                       {pro.description && (
                         <p className="mt-3 text-gray-600 leading-relaxed italic">{pro.description}</p>
                       )}
@@ -191,20 +200,6 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                 SIREN : {pro.siren.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3')}
               </div>
             </div>
-
-            {/* Galerie photos */}
-            {pro.photos.length > 0 && (
-              <div className="card p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Galerie photos</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {pro.photos.map(photo => (
-                    <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
-                      <Image src={photo.url} alt={pro.companyName} fill className="object-cover" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* FAQ */}
             {pro.faqItems.length > 0 && (
