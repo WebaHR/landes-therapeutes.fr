@@ -169,19 +169,26 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
               </div>
             </div>
 
-            {/* Galerie photos */}
-            {pro.photos.length > 0 && (
-              <div className="mt-5 grid grid-cols-3 sm:grid-cols-5 gap-2">
+          </div>
+        </div>
+      </div>
+
+      {/* Galerie photos */}
+      {pro.photos.length > 0 && (
+        <div className="w-full mt-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="card p-6">
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                 {pro.photos.map(photo => (
                   <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
                     <Image src={photo.url} alt={pro.companyName} fill className="object-cover" />
                   </div>
                 ))}
               </div>
-            )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <Link href="/annuaire" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mt-6 mb-6">
