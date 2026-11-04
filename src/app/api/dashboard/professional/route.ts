@@ -47,11 +47,16 @@ export async function PUT(req: Request) {
       googleReviews = null
     }
 
+    const specialites = [1, 2, 3, 4, 5, 6]
+      .map(n => (formData.get(`specialite${n}`) as string | null)?.trim())
+      .filter((s): s is string => !!s)
+
     await prisma.professional.update({
       where: { userId: user.id },
       data: {
         companyName:     formData.get('companyName') as string || professional.companyName,
         category:        formData.get('category') as string || professional.category,
+        specialites,
         description:     formData.get('description') as string || null,
         richDescription: formData.get('richDescription') as string || null,
         phone:           formData.get('phone') as string || null,

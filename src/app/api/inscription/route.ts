@@ -98,6 +98,9 @@ export async function POST(req: Request) {
     const siren          = (formData.get('siren') as string).replace(/\s/g, '')
     const category       = formData.get('category') as string
     const activityTitle   = formData.get('activityTitle') as string | null
+    const specialites = [1, 2, 3, 4, 5, 6]
+      .map(n => (formData.get(`specialite${n}`) as string | null)?.trim())
+      .filter((s): s is string => !!s)
     const description     = formData.get('description') as string | null
     const richDescription = formData.get('richDescription') as string | null
     const parcours        = formData.get('parcours') as string | null
@@ -160,6 +163,7 @@ export async function POST(req: Request) {
       sirenVerified,
       category,
       activityTitle:   activityTitle || null,
+      specialites,
       description:     description || null,
       richDescription: richDescription || null,
       parcours:        parcours || null,

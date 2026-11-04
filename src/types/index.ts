@@ -12,6 +12,7 @@ export interface Professional {
   sirenVerified: boolean
   category: string
   activityTitle?: string | null
+  specialites?: string[]
   description?: string | null
   richDescription?: string | null
   parcours?: string | null

@@ -35,6 +35,9 @@ export default function EditProForm({ professional }: EditProFormProps) {
     googlePlaceId: professional.googlePlaceId || '',
   })
   const [richDescription, setRichDescription] = useState(professional.richDescription || '')
+  const [specialites, setSpecialites] = useState<string[]>(
+    Array.from({ length: 6 }, (_, i) => professional.specialites?.[i] || '')
+  )
   const [logoPreview, setLogoPreview] = useState<string | null>(professional.logoUrl || null)
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [saving, setSaving] = useState(false)
@@ -95,6 +98,7 @@ export default function EditProForm({ professional }: EditProFormProps) {
       const fd = new FormData()
       Object.entries(form).forEach(([k, v]) => fd.append(k, v))
       fd.append('richDescription', richDescription)
+      specialites.forEach((s, i) => fd.append(`specialite${i + 1}`, s))
       if (logoFile) fd.append('logo', logoFile)
       fd.append('keepPhotoIds', JSON.stringify(existingPhotos.map(p => p.id)))
       newPhotos.forEach((p, i) => fd.append(`newPhoto_${i}`, p.file))
@@ -146,6 +150,24 @@ export default function EditProForm({ professional }: EditProFormProps) {
             minLength={0}
             maxLength={2500}
           />
+        </div>
+      </div>
+
+      {/* Spécialités */}
+      <div className="border-t border-gray-100 pt-5">
+        <h4 className="font-semibold text-gray-800">Spécialités</h4>
+        <p className="text-xs text-gray-400 mb-3">Listez jusqu'à 6 spécialités pour aider les patients à vous trouver.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {specialites.map((s, i) => (
+            <input
+              key={i}
+              value={s}
+              onChange={e => setSpecialites(prev => prev.map((v, idx) => idx === i ? e.target.value : v))}
+              className="input"
+              placeholder={`Spécialité ${i + 1}`}
+              maxLength={60}
+            />
+          ))}
         </div>
       </div>
 

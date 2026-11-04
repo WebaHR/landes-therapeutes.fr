@@ -46,6 +46,12 @@ const schema = z.object({
   siren: z.string().regex(/^\d{3}\s?\d{3}\s?\d{3}$/, 'SIREN invalide (9 chiffres)'),
   category: z.string().min(1, 'Catégorie requise'),
   activityTitle: z.string().max(100, '100 caractères max').optional(),
+  specialite1: z.string().optional(),
+  specialite2: z.string().optional(),
+  specialite3: z.string().optional(),
+  specialite4: z.string().optional(),
+  specialite5: z.string().optional(),
+  specialite6: z.string().optional(),
   acceptsPublic: z.boolean().default(false),
   travelsHome: z.boolean().default(false),
   description: z.string().max(250, '250 caractères max').optional(),
@@ -385,6 +391,25 @@ export default function InscriptionForm() {
                   maxLength={100}
                 />
                 {errors.activityTitle && <p className="text-red-500 text-xs mt-1.5">{errors.activityTitle.message}</p>}
+              </div>
+            </div>
+
+            {/* Spécialités */}
+            <div className="border-t border-gray-100 pt-4 space-y-4">
+              <div>
+                <label className="label">Spécialités (facultatif)</label>
+                <p className="text-xs text-gray-400 mb-3">Listez jusqu'à 6 spécialités pour aider les patients à vous trouver.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {([1, 2, 3, 4, 5, 6] as const).map(n => (
+                    <input
+                      key={n}
+                      {...register(`specialite${n}` as const)}
+                      className="input"
+                      placeholder={`Spécialité ${n}`}
+                      maxLength={60}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
 
