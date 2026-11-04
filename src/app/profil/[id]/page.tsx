@@ -180,7 +180,7 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                     </span>
                   )}
                   <span className="inline-flex items-center gap-1.5 bg-purple-50 text-purple-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-purple-100">
-                    <Video className="w-3.5 h-3.5" /> Consultation à distance
+                    <Video className="w-3.5 h-3.5" /> A distance
                   </span>
                 </div>
               </div>
