@@ -155,21 +155,30 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                 </div>
               </div>
 
-              {/* Badges de statut */}
-              <div className="flex flex-wrap justify-end gap-2 flex-shrink-0">
+              <div className="flex flex-col items-end gap-3 flex-shrink-0">
                 {pro.acceptsPublic && (
-                  <span className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-100">
-                    <Users className="w-3.5 h-3.5" /> Reçoit en cabinet
-                  </span>
+                  <div className="flex items-start gap-2 text-sm text-gray-600">
+                    <MapPin className="w-4 h-4 text-brand-400 mt-0.5 flex-shrink-0" />
+                    <span>{pro.address ? `${pro.address}, ` : ''}{pro.postalCode} {pro.city}</span>
+                  </div>
                 )}
-                {pro.travelsHome && (
-                  <span className="inline-flex items-center gap-1.5 bg-accent-50 text-accent-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-accent-100">
-                    <Car className="w-3.5 h-3.5" /> Se déplace à domicile
+
+                {/* Badges de statut */}
+                <div className="flex flex-wrap justify-end gap-2">
+                  {pro.acceptsPublic && (
+                    <span className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-100">
+                      <Users className="w-3.5 h-3.5" /> Reçoit en cabinet
+                    </span>
+                  )}
+                  {pro.travelsHome && (
+                    <span className="inline-flex items-center gap-1.5 bg-accent-50 text-accent-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-accent-100">
+                      <Car className="w-3.5 h-3.5" /> Se déplace à domicile
+                    </span>
+                  )}
+                  <span className="inline-flex items-center gap-1.5 bg-purple-50 text-purple-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-purple-100">
+                    <Video className="w-3.5 h-3.5" /> Consultation à distance
                   </span>
-                )}
-                <span className="inline-flex items-center gap-1.5 bg-purple-50 text-purple-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-purple-100">
-                  <Video className="w-3.5 h-3.5" /> Consultation à distance
-                </span>
+                </div>
               </div>
             </div>
 
