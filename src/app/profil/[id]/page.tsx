@@ -171,7 +171,7 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                 <div className="flex flex-wrap justify-center gap-2">
                   {pro.acceptsPublic && (
                     <span className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-100">
-                      <Users className="w-3.5 h-3.5" /> Reçoit en cabinet
+                      <Users className="w-3.5 h-3.5" /> En cabinet
                     </span>
                   )}
                   {pro.travelsHome && (
