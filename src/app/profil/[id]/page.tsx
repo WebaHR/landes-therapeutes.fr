@@ -113,7 +113,7 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
       {/* Bloc pleine largeur */}
       <div className="w-full pt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="card p-6">
+          <div className="card p-6 sticky top-20 z-20">
             <div className="flex items-start justify-between gap-5">
               <div className="flex items-center gap-5 min-w-0">
                 <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden flex-shrink-0 shadow-md">
