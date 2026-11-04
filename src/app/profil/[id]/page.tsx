@@ -316,13 +316,6 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                 )}
               </div>
 
-              {pro.acceptsPublic && (
-                <div className="mt-5 pt-4 border-t border-gray-100 flex items-start gap-2 text-sm text-gray-600">
-                  <MapPin className="w-4 h-4 text-brand-400 mt-0.5 flex-shrink-0" />
-                  <span>{pro.address ? `${pro.address}, ` : ''}{pro.postalCode} {pro.city}</span>
-                </div>
-              )}
-
               {(pro.facebookUrl || pro.instagramUrl || pro.linkedinUrl) && (
                 <div className="mt-4 pt-4 border-t border-gray-100 flex items-center gap-3">
                   {pro.facebookUrl && (
@@ -346,6 +339,16 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                 </div>
               )}
             </div>
+
+            {/* Adresse */}
+            {pro.acceptsPublic && (
+              <div className="card p-6">
+                <div className="flex items-start gap-2 text-sm text-gray-600">
+                  <MapPin className="w-4 h-4 text-brand-400 mt-0.5 flex-shrink-0" />
+                  <span>{pro.address ? `${pro.address}, ` : ''}{pro.postalCode} {pro.city}</span>
+                </div>
+              </div>
+            )}
 
             {/* Horaires d'ouverture */}
             {pro.openingHours.length > 0 && (
