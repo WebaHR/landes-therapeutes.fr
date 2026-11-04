@@ -145,13 +145,17 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                           )}
                         </div>
                       )}
-                      {(pro.typesPublic.length > 0 || pro.specialites.length > 0) && (
+                      {pro.typesPublic.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-3">
                           {pro.typesPublic.map(t => (
                             <span key={t} className="inline-flex items-center bg-accent-50 text-accent-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-accent-100">
                               {t}
                             </span>
                           ))}
+                        </div>
+                      )}
+                      {pro.specialites.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-2">
                           {pro.specialites.map(s => (
                             <span key={s} className="inline-flex items-center bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-100">
                               {s}
