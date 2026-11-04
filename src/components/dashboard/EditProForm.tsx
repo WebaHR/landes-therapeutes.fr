@@ -16,6 +16,16 @@ interface EditProFormProps {
   professional: Professional
 }
 
+const SPECIALITES_OPTIONS = [
+  'Gestion du stress', 'Confiance en soi', 'Naturopathie', 'Troubles du sommeil',
+  'Libération émotionnelle', 'Psychotérapie', 'Hypnose', 'Burn-out',
+  'Gestion des émotions', 'Sophrologie', 'Angoisse', 'Mieux-être',
+  'Anxiété', 'Développement personnel', 'Coaching de vie', 'Troubles digestifs',
+  'Addiction', 'Arrêt du tabac', 'Kinésiologie', 'Relations toxiques',
+  'Relaxation', 'Réflexologie', 'Massage', 'Perte de poids',
+  'Gestion de la douleur',
+]
+
 type FormationRow = { id: string; titre: string; etablissement: string; annee: string }
 type FaqRow = { id: string; question: string; reponse: string }
 type ExistingPhoto = { id: string; url: string }
@@ -35,9 +45,10 @@ export default function EditProForm({ professional }: EditProFormProps) {
     googlePlaceId: professional.googlePlaceId || '',
   })
   const [richDescription, setRichDescription] = useState(professional.richDescription || '')
-  const [specialites, setSpecialites] = useState<string[]>(
-    Array.from({ length: 6 }, (_, i) => professional.specialites?.[i] || '')
-  )
+  const [specialites, setSpecialites] = useState<string[]>(professional.specialites || [])
+  const toggleSpecialite = (term: string) => {
+    setSpecialites(prev => prev.includes(term) ? prev.filter(s => s !== term) : [...prev, term])
+  }
   const [logoPreview, setLogoPreview] = useState<string | null>(professional.logoUrl || null)
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [saving, setSaving] = useState(false)
@@ -98,7 +109,7 @@ export default function EditProForm({ professional }: EditProFormProps) {
       const fd = new FormData()
       Object.entries(form).forEach(([k, v]) => fd.append(k, v))
       fd.append('richDescription', richDescription)
-      specialites.forEach((s, i) => fd.append(`specialite${i + 1}`, s))
+      fd.append('specialites', JSON.stringify(specialites))
       if (logoFile) fd.append('logo', logoFile)
       fd.append('keepPhotoIds', JSON.stringify(existingPhotos.map(p => p.id)))
       newPhotos.forEach((p, i) => fd.append(`newPhoto_${i}`, p.file))
@@ -156,17 +167,18 @@ export default function EditProForm({ professional }: EditProFormProps) {
       {/* Spécialités */}
       <div className="border-t border-gray-100 pt-5">
         <h4 className="font-semibold text-gray-800">Spécialités</h4>
-        <p className="text-xs text-gray-400 mb-3">Listez jusqu'à 6 spécialités pour aider les patients à vous trouver.</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {specialites.map((s, i) => (
-            <input
-              key={i}
-              value={s}
-              onChange={e => setSpecialites(prev => prev.map((v, idx) => idx === i ? e.target.value : v))}
-              className="input"
-              placeholder={`Spécialité ${i + 1}`}
-              maxLength={60}
-            />
+        <p className="text-xs text-gray-400 mb-3">Cochez les spécialités qui correspondent à votre pratique.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+          {SPECIALITES_OPTIONS.map(term => (
+            <label key={term} className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={specialites.includes(term)}
+                onChange={() => toggleSpecialite(term)}
+                className="w-4 h-4 rounded text-brand-600"
+              />
+              {term}
+            </label>
           ))}
         </div>
       </div>
