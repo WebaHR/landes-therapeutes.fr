@@ -178,7 +178,7 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
         <div className="w-full mt-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="card p-6">
-              <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
                 {pro.photos.map(photo => (
                   <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
                     <Image src={photo.url} alt={pro.companyName} fill className="object-cover" />
