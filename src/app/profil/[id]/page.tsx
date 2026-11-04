@@ -155,20 +155,20 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                 </div>
               </div>
 
-              <div className="flex flex-col items-end gap-3 flex-shrink-0">
+              <div className="flex flex-col items-center gap-3 flex-shrink-0">
                 <a href="#rdv" className="btn-primary text-sm py-2 px-4 flex items-center gap-1.5 flex-shrink-0">
                   <Clock className="w-4 h-4" /> Prendre rendez-vous
                 </a>
 
                 {pro.acceptsPublic && (
-                  <div className="flex items-start gap-2 text-sm text-gray-600">
-                    <MapPin className="w-4 h-4 text-brand-400 mt-0.5 flex-shrink-0" />
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <MapPin className="w-4 h-4 text-brand-400 flex-shrink-0" />
                     <span>{pro.address ? `${pro.address}, ` : ''}{pro.postalCode} {pro.city}</span>
                   </div>
                 )}
 
                 {/* Badges de statut */}
-                <div className="flex flex-wrap justify-end gap-2">
+                <div className="flex flex-wrap justify-center gap-2">
                   {pro.acceptsPublic && (
                     <span className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-brand-100">
                       <Users className="w-3.5 h-3.5" /> Reçoit en cabinet
