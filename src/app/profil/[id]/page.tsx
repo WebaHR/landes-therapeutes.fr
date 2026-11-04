@@ -110,9 +110,7 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
     <div className="min-h-screen bg-surface-50">
       <Navbar user={user} />
 
-      {/* Bloc pleine largeur */}
-      <div className="w-full pt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
           <div className="card p-6 sticky top-20 z-20">
             <div className="flex items-start justify-between gap-5">
               <div className="flex items-center gap-5 min-w-0">
@@ -205,14 +203,10 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
             </div>
 
           </div>
-        </div>
-      </div>
 
-      {/* Galerie photos */}
-      {pro.photos.length > 0 && (
-        <div className="w-full mt-6">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="card p-6">
+          {/* Galerie photos */}
+          {pro.photos.length > 0 && (
+            <div className="card p-6 mt-6">
               <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
                 {pro.photos.map(photo => (
                   <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden border border-gray-200">
@@ -221,16 +215,13 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <Link href="/annuaire" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mt-6 mb-6">
-          <ArrowLeft className="w-4 h-4" /> Retour à l&apos;annuaire
-        </Link>
+          <Link href="/annuaire" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mt-6 mb-6">
+            <ArrowLeft className="w-4 h-4" /> Retour à l&apos;annuaire
+          </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[70%_30%] gap-6 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-[70%_30%] gap-6 items-start">
 
           {/* ══ COLONNE GAUCHE 70% ══ */}
           <div className="space-y-6 min-w-0">
