@@ -156,6 +156,10 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
               </div>
 
               <div className="flex flex-col items-end gap-3 flex-shrink-0">
+                <a href="#rdv" className="btn-primary text-sm py-2 px-4 flex items-center gap-1.5 flex-shrink-0">
+                  <Clock className="w-4 h-4" /> Prendre rendez-vous
+                </a>
+
                 {pro.acceptsPublic && (
                   <div className="flex items-start gap-2 text-sm text-gray-600">
                     <MapPin className="w-4 h-4 text-brand-400 mt-0.5 flex-shrink-0" />
@@ -391,11 +395,13 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
               </div>
             )}
 
-            <BookingCalendar
-              professionalId={pro.id}
-              consultationTypes={consultationTypes}
-              openingHours={serializedHours}
-            />
+            <div id="rdv">
+              <BookingCalendar
+                professionalId={pro.id}
+                consultationTypes={consultationTypes}
+                openingHours={serializedHours}
+              />
+            </div>
           </div>
 
         </div>
