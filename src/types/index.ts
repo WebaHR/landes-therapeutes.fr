@@ -13,6 +13,7 @@ export interface Professional {
   category: string
   activityTitle?: string | null
   specialites?: string[]
+  typesPublic?: string[]
   description?: string | null
   richDescription?: string | null
   parcours?: string | null
@@ -134,3 +135,19 @@ export const CATEGORIES = [
 ] as const
 
 export type Category = typeof CATEGORIES[number]
+
+export const TYPES_PUBLIC = [
+  'Adulte',
+  'Adolescent',
+  'Enfant',
+  'Couples',
+  'Tous publics',
+  'Bébé',
+  'Parentalité',
+  'Future maman',
+  'Salarié',
+  'Entrepreneur',
+  'Etudiant',
+  'Animaux',
+  'Séniors',
+] as const

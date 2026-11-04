@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import type { Professional } from '@/types'
-import { CATEGORIES } from '@/types'
+import { CATEGORIES, TYPES_PUBLIC } from '@/types'
 import RichTextEditor from '@/components/ui/RichTextEditor'
 
 interface EditProFormProps {
@@ -48,6 +48,10 @@ export default function EditProForm({ professional }: EditProFormProps) {
   const [specialites, setSpecialites] = useState<string[]>(professional.specialites || [])
   const toggleSpecialite = (term: string) => {
     setSpecialites(prev => prev.includes(term) ? prev.filter(s => s !== term) : [...prev, term])
+  }
+  const [typesPublic, setTypesPublic] = useState<string[]>(professional.typesPublic || [])
+  const toggleTypePublic = (term: string) => {
+    setTypesPublic(prev => prev.includes(term) ? prev.filter(t => t !== term) : [...prev, term])
   }
   const [logoPreview, setLogoPreview] = useState<string | null>(professional.logoUrl || null)
   const [logoFile, setLogoFile] = useState<File | null>(null)
@@ -110,6 +114,7 @@ export default function EditProForm({ professional }: EditProFormProps) {
       Object.entries(form).forEach(([k, v]) => fd.append(k, v))
       fd.append('richDescription', richDescription)
       fd.append('specialites', JSON.stringify(specialites))
+      fd.append('typesPublic', JSON.stringify(typesPublic))
       if (logoFile) fd.append('logo', logoFile)
       fd.append('keepPhotoIds', JSON.stringify(existingPhotos.map(p => p.id)))
       newPhotos.forEach((p, i) => fd.append(`newPhoto_${i}`, p.file))
@@ -175,6 +180,25 @@ export default function EditProForm({ professional }: EditProFormProps) {
                 type="checkbox"
                 checked={specialites.includes(term)}
                 onChange={() => toggleSpecialite(term)}
+                className="w-4 h-4 rounded text-brand-600"
+              />
+              {term}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Type de public */}
+      <div className="border-t border-gray-100 pt-5">
+        <h4 className="font-semibold text-gray-800">Type de public</h4>
+        <p className="text-xs text-gray-400 mb-3">Cochez les publics que vous accompagnez.</p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {TYPES_PUBLIC.map(term => (
+            <label key={term} className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={typesPublic.includes(term)}
+                onChange={() => toggleTypePublic(term)}
                 className="w-4 h-4 rounded text-brand-600"
               />
               {term}

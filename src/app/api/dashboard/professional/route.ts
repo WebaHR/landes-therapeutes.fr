@@ -49,6 +49,8 @@ export async function PUT(req: Request) {
 
     const specialitesRaw = formData.get('specialites') as string | null
     const specialites: string[] = specialitesRaw ? JSON.parse(specialitesRaw) : []
+    const typesPublicRaw = formData.get('typesPublic') as string | null
+    const typesPublic: string[] = typesPublicRaw ? JSON.parse(typesPublicRaw) : []
 
     await prisma.professional.update({
       where: { userId: user.id },
@@ -56,6 +58,7 @@ export async function PUT(req: Request) {
         companyName:     formData.get('companyName') as string || professional.companyName,
         category:        formData.get('category') as string || professional.category,
         specialites,
+        typesPublic,
         description:     formData.get('description') as string || null,
         richDescription: formData.get('richDescription') as string || null,
         phone:           formData.get('phone') as string || null,

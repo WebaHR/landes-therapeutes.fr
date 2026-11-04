@@ -40,6 +40,7 @@ model Professional {
   category        String
   activityTitle   String?   // ex: "Naturopathe certifié par la FNEP"
   specialites     String[]  @default([]) // jusqu'à 6 spécialités
+  typesPublic     String[]  @default([]) // type de public accueilli
   description     String?   // courte phrase (250 car max)
   richDescription String?   // texte riche HTML (blocs P/H2/H3)
   parcours        String?   // texte riche HTML — parcours & informations complémentaires

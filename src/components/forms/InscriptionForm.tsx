@@ -14,7 +14,7 @@ import {
   Plus, Trash2, GraduationCap, FileText, HelpCircle, ChevronDown,
   Facebook, Instagram, Linkedin
 } from 'lucide-react'
-import { CATEGORIES } from '@/types'
+import { CATEGORIES, TYPES_PUBLIC } from '@/types'
 import { formatSiren } from '@/lib/utils'
 import Image from 'next/image'
 import RichTextEditor, { SeoExample } from '@/components/ui/RichTextEditor'
@@ -97,6 +97,10 @@ export default function InscriptionForm() {
   const [acceptsPublic, setAcceptsPublic] = useState(false)
   const [travelsHome, setTravelsHome] = useState(false)
   const [acceptsRdv, setAcceptsRdv] = useState(true)
+  const [typesPublic, setTypesPublic] = useState<string[]>([])
+  const toggleTypePublic = (term: string) => {
+    setTypesPublic(prev => prev.includes(term) ? prev.filter(t => t !== term) : [...prev, term])
+  }
 
   // Galerie photos (max 5)
   const [photos, setPhotos] = useState<{ id: string; file: File; preview: string }[]>([])
@@ -201,6 +205,7 @@ export default function InscriptionForm() {
       formData.append('acceptsPublic', String(acceptsPublic))
       formData.append('travelsHome', String(travelsHome))
       formData.append('acceptsRdv', String(acceptsRdv))
+      formData.append('typesPublic', JSON.stringify(typesPublic))
       formData.append('hours', JSON.stringify(hours))
       photos.forEach((p, i) => formData.append(`photo_${i}`, p.file))
       formData.append('formations', JSON.stringify(formations))
@@ -408,6 +413,27 @@ export default function InscriptionForm() {
                       placeholder={`Spécialité ${n}`}
                       maxLength={60}
                     />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Type de public */}
+            <div className="border-t border-gray-100 pt-4 space-y-4">
+              <div>
+                <label className="label">Type de public (facultatif)</label>
+                <p className="text-xs text-gray-400 mb-3">Cochez les publics que vous accompagnez.</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {TYPES_PUBLIC.map(term => (
+                    <label key={term} className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={typesPublic.includes(term)}
+                        onChange={() => toggleTypePublic(term)}
+                        className="w-4 h-4 rounded text-brand-600"
+                      />
+                      {term}
+                    </label>
                   ))}
                 </div>
               </div>

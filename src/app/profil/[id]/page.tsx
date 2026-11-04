@@ -228,6 +228,15 @@ export default async function ProfilPage({ params }: { params: Promise<{ id: str
                   ))}
                 </div>
               )}
+              {pro.typesPublic.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {pro.typesPublic.map(t => (
+                    <span key={t} className="inline-flex items-center bg-accent-50 text-accent-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-accent-100">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              )}
               {pro.description && (
                 <p className="mt-3 text-gray-600 leading-relaxed italic">{pro.description}</p>
               )}
